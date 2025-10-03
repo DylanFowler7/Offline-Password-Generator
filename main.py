@@ -13,7 +13,7 @@ def main():
             saved_passwords.append(row[0])
     password_string = ""
     print("------------------------------")
-    print("Welcome to the offline password generator")
+    print("Welcome to the Offline Password Generator!")
     print("Enter one of the following options:")
     print("1. Generate")
     print("2. Add Password")
@@ -91,6 +91,93 @@ def main():
                 print("Invalid response. Reenter option.")
                 print("------------------------------")
                 ready = input()
+    elif selection_lower == "2" or selection_lower == "add passwords":
+        number_count = 0
+        symbol_count = 0
+        print("------------------------------")
+        print("Please enter password you wish to add.")
+        print("------------------------------")
+        added_password = input()
+        for i in added_password:
+            if i in digits:
+                number_count += 1
+            if i in punctuation:
+                symbol_count += 1
+        print (number_count, symbol_count)
+        if number_count == 0:
+            print("------------------------------")
+            print("No numbers in password. Are you sure you wish to save password? Yes or No")
+            print("------------------------------")
+            ok = input()
+            ok_lower = ok.lower()
+            if ok_lower == "yes":
+                if symbol_count == 0:
+                    print("------------------------------")
+                    print("No symbol in password. Are you sure you wish to save password? Yes or No")
+                    print("------------------------------")
+                    second_ok = input()
+                    second_ok_lower = second_ok.lower()
+                    if second_ok_lower == "yes":
+                        saved_passwords.append(added_password)
+                        print("------------------------------")
+                        print("Saved")
+                        print("------------------------------")
+                        with open("passwords.csv", "w", newline="") as f:
+                            writer = csv.writer(f)
+                            for item in saved_passwords:
+                                writer.writerow([item])
+                        return
+                    else:
+                        print("------------------------------")
+                        print("Password not saved")
+                        print("------------------------------")
+                        return
+                else:
+                    saved_passwords.append(added_password)
+                    print("------------------------------")
+                    print("Saved")
+                    print("------------------------------")
+                    with open("passwords.csv", "w", newline="") as f:
+                        writer = csv.writer(f)
+                        for item in saved_passwords:
+                            writer.writerow([item])
+                    return
+            else:
+                print("------------------------------")
+                print("Password not saved")
+                print("------------------------------")
+                return
+        if symbol_count == 0:
+            print("------------------------------")
+            print("No symbol in password. Are you sure you wish to save password? Yes or No")
+            print("------------------------------")
+            symbol_ok = input()
+            symbol_ok_lower = symbol_ok.lower()
+            if symbol_ok_lower == "yes":
+                saved_passwords.append(added_password)
+                print("------------------------------")
+                print("Saved")
+                print("------------------------------")
+                with open("passwords.csv", "w", newline="") as f:
+                    writer = csv.writer(f)
+                    for item in saved_passwords:
+                        writer.writerow([item])
+                return
+            else:
+                print("------------------------------")
+                print("Password not saved")
+                print("------------------------------")
+                return
+        else:
+            saved_passwords.append(added_password)
+            print("------------------------------")
+            print("Saved")
+            print("------------------------------")
+            with open("passwords.csv", "w", newline="") as f:
+                writer = csv.writer(f)
+                for item in saved_passwords:
+                    writer.writerow([item])
+            return
     elif selection_lower == "3" or selection_lower == "saved passwords":
         if len(saved_passwords) == 0:
                 print("------------------------------")
