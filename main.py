@@ -7,7 +7,7 @@ def main():
     password_list = []
     saved_passwords = []
     password_options = []
-    with open("passwords.csv", "r", newline="") as f:
+    with open("passwords.csv", "r", newline='', encoding='utf-8') as f:
         reader = csv.reader(f)
         for row in reader:
             saved_passwords.append(row[0])
@@ -32,6 +32,7 @@ def main():
             letter_count = 0
             number_count = 0
             symbol_count = 0
+            note = ""
             password_length = random.randint(10, 16)
             num_letters = random.randint(8 , password_length - 2)
             num_numbers = random.randint(1, password_length - num_letters - 1)
@@ -48,23 +49,24 @@ def main():
                 password_options.append("number")
             for i in range(number_symbols):
                 password_options.append("symbol")
-            for i in range(password_length):
-                var = random.choice(password_options)
-                if var == "letter":
-                    next_var = random.choice(ascii_letters)
-                    password_list.append(next_var)
-                    password_options.remove("letter")
-                    letter_count += 1
-                if var == "number":
-                    next_var = random.choice(digits)
-                    password_list.append(next_var)
-                    password_options.remove("number")
-                    number_count += 1
-                if var == "symbol":
-                    next_var = random.choice(punctuation)
-                    password_list.append(next_var)
-                    password_options.remove("symbol")
-                    symbol_count += 1
+            if len(password_options) == password_length:
+                for i in range(password_length):
+                    var = random.choice(password_options)
+                    if var == "letter":
+                        next_var = random.choice(ascii_letters)
+                        password_list.append(next_var)
+                        password_options.remove("letter")
+                        letter_count += 1
+                    if var == "number":
+                        next_var = random.choice(digits)
+                        password_list.append(next_var)
+                        password_options.remove("number")
+                        number_count += 1
+                    if var == "symbol":
+                        next_var = random.choice(punctuation)
+                        password_list.append(next_var)
+                        password_options.remove("symbol")
+                        symbol_count += 1
             password_string = "".join(password_list)
             print("------------------------------")
             print("Generated Password:", password_string)
@@ -73,12 +75,23 @@ def main():
             save = input()
             save_lower = save.lower()
             if save_lower == "yes":
-                saved_passwords.append(password_string)
+                print("------------------------------")
+                print("Would you like to add a Note to this password? Yes or No")
+                print("------------------------------")
+                add_note = input()
+                add_note_lower = add_note.lower()
+                if add_note_lower == "yes":
+                    note = input("Enter Note:")
+                else:
+                    print("------------------------------")
+                    print("No Note added")
+                    print("------------------------------")
                 print("------------------------------")
                 print("Saved")
-                print(saved_passwords)
-                print("------------------------------")
-                with open("passwords.csv", "w", newline="") as f:
+                password_save = f'Password: {password_string} / Notes: {note}'
+                print(password_save)
+                saved_passwords.append(password_save)
+                with open("passwords.csv", "w", newline='', encoding='utf-8') as f:
                     writer = csv.writer(f)
                     for item in saved_passwords:
                         writer.writerow([item])
@@ -122,7 +135,7 @@ def main():
                         print("------------------------------")
                         print("Saved")
                         print("------------------------------")
-                        with open("passwords.csv", "w", newline="") as f:
+                        with open("passwords.csv", "w", newline='', encoding='utf-8') as f:
                             writer = csv.writer(f)
                             for item in saved_passwords:
                                 writer.writerow([item])
@@ -137,7 +150,7 @@ def main():
                     print("------------------------------")
                     print("Saved")
                     print("------------------------------")
-                    with open("passwords.csv", "w", newline="") as f:
+                    with open("passwords.csv", "w", newline='', encoding='utf-8') as f:
                         writer = csv.writer(f)
                         for item in saved_passwords:
                             writer.writerow([item])
@@ -158,7 +171,7 @@ def main():
                 print("------------------------------")
                 print("Saved")
                 print("------------------------------")
-                with open("passwords.csv", "w", newline="") as f:
+                with open("passwords.csv", "w", newline='', encoding='utf-8') as f:
                     writer = csv.writer(f)
                     for item in saved_passwords:
                         writer.writerow([item])
@@ -173,7 +186,7 @@ def main():
             print("------------------------------")
             print("Saved")
             print("------------------------------")
-            with open("passwords.csv", "w", newline="") as f:
+            with open("passwords.csv", "w", newline='', encoding='utf-8') as f:
                 writer = csv.writer(f)
                 for item in saved_passwords:
                     writer.writerow([item])
@@ -192,34 +205,63 @@ def main():
         if ready.lower() == "ready":
             print(saved_passwords)
             print("------------------------------")
-            print("If you would like to delete a password, enter the password's number(starting at 0)")
+            print("If you would like to Delete a password or change its Notes, enter the password's number(starting at 0)")
             print("Otherwise, enter Return to return")
             print("------------------------------")
-            delete = input()
-            if delete == "":
+            choose_password = input()
+            choose_password_int = int(choose_password)
+            if choose_password == "":
                 print("------------------------------")
                 print("Returning")
                 print("------------------------------")
                 return
-            if delete in digits:
-                delete_int = int(delete)
+            if choose_password_int > len(saved_passwords):
                 print("------------------------------")
-                print("Deleting password '{}'. Enter Confirm to delete".format(saved_passwords[delete_int]))
+                print("Invalid Selection")
                 print("------------------------------")
-                finalize = input()
-                if finalize == "Confirm":
-                    saved_passwords.pop(delete_int)
-                    with open("passwords.csv", "w", newline="") as f:
-                        writer = csv.writer(f)
-                        for item in saved_passwords:
-                            writer.writerow([item])
+                choose_password = input()
+            if choose_password in digits and choose_password_int < len(saved_passwords):
+                choose_password_int = int(choose_password)
+                print("------------------------------")
+                print("[{}] selected. Enter Notes to edit notes or Delete to delete chosen password.".format(saved_passwords[choose_password_int]))
+                print("------------------------------")
+                notes_or_delete = input()
+                notes_or_delete_lower = notes_or_delete.lower()
+                if notes_or_delete_lower == "notes" or notes_or_delete_lower == "note":
+                    note_split = saved_passwords[choose_password_int].split("Notes: ")
                     print("------------------------------")
-                    print("Password Deleted")
+                    print("[Previous Note: {}]. Enter new Note.".format(note_split[1]))
                     print("------------------------------")
-                else:
+                    new_note = input("New Note: ")
+                    note_split[1] = new_note
+                    fixed_note = "Notes: ".join(note_split)
                     print("------------------------------")
-                    print("Password Not Deleted")
+                    print("Note changed to {}".format(fixed_note))
                     print("------------------------------")
+                    saved_passwords[choose_password_int] = fixed_note
+                    with open("passwords.csv", "w", newline='', encoding='utf-8') as f:
+                            writer = csv.writer(f)
+                            for item in saved_passwords:
+                                writer.writerow([item])
+                    return
+                if notes_or_delete_lower == "delete":
+                    print("------------------------------")
+                    print("Deleting password '[{}]'. Enter Confirm to delete".format(saved_passwords[choose_password_int]))
+                    print("------------------------------")
+                    finalize = input()
+                    if finalize == "Confirm":
+                        saved_passwords.pop(choose_password_int)
+                        with open("passwords.csv", "w", newline='', encoding='utf-8') as f:
+                            writer = csv.writer(f)
+                            for item in saved_passwords:
+                                writer.writerow([item])
+                        print("------------------------------")
+                        print("Password Deleted")
+                        print("------------------------------")
+                    else:
+                        print("------------------------------")
+                        print("Password Not Deleted")
+                        print("------------------------------")
             else:
                 print("------------------------------")
                 print("Returning")
