@@ -315,10 +315,10 @@ def main():
                         print(saved_passwords)
                     if notes_or_delete_lower == "delete":
                         print("------------------------------")
-                        print("Deleting password '[{}]'. Enter Confirm to delete".format(saved_passwords[choose_password_int]))
+                        print("Deleting password '[{}]'. Enter CONFIRM(case sensitive) to delete".format(saved_passwords[choose_password_int]))
                         print("------------------------------")
                         finalize = input()
-                        if finalize == "Confirm":
+                        if finalize == "CONFIRM":
                             saved_passwords.pop(choose_password_int)
                             with open("passwords.csv", "w", newline='', encoding='utf-8') as f:
                                 writer = csv.writer(f)
