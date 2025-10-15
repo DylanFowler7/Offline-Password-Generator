@@ -93,7 +93,6 @@ def main():
                         print("------------------------------")
                         print("No Note added")
                         print("------------------------------")
-                        main()
                     print("------------------------------")
                     print("Saved")
                     password_save = f'Password: {password_string} / Notes: {note}'
@@ -121,6 +120,11 @@ def main():
             print("Please enter password you wish to add.")
             print("------------------------------")
             added_password = input()
+            if added_password == "":
+                print("------------------------------")
+                print("Returning")
+                print("------------------------------")
+                main()
             for i in added_password:
                 if i in digits:
                     number_count += 1
@@ -142,8 +146,19 @@ def main():
                         second_ok = input()
                         second_ok_lower = second_ok.lower()
                         if second_ok_lower == "yes":
-                            number_password = len(saved_passwords)
-                            password_save = f'Password {number_password}: {added_password} / Notes: {note}'
+                            print("------------------------------")
+                            print("Would you like to add a Note to this password? Yes or No")
+                            print("------------------------------")
+                            #notes are not saved as a new variable to keep important information together and saved in a simple csv file
+                            add_note = input()
+                            add_note_lower = add_note.lower()
+                            if add_note_lower == "yes":
+                                note = input("Enter Note:")
+                            else:
+                                print("------------------------------")
+                                print("No Note added")
+                                print("------------------------------")
+                            password_save = f'Password: {added_password} / Notes: {note}'
                             saved_passwords.append(password_save)
                             print("------------------------------")
                             print("Saved")
@@ -159,8 +174,19 @@ def main():
                             print("------------------------------")
                             main()
                     else:
-                        number_password = len(saved_passwords)
-                        password_save = f'Password {number_password}: {added_password} / Notes: {note}'
+                        print("------------------------------")
+                        print("Would you like to add a Note to this password? Yes or No")
+                        print("------------------------------")
+                        #notes are not saved as a new variable to keep important information together and saved in a simple csv file
+                        add_note = input()
+                        add_note_lower = add_note.lower()
+                        if add_note_lower == "yes":
+                            note = input("Enter Note:")
+                        else:
+                            print("------------------------------")
+                            print("No Note added")
+                            print("------------------------------")
+                        password_save = f'Password: {added_password} / Notes: {note}'
                         saved_passwords.append(password_save)
                         print("------------------------------")
                         print("Saved")
@@ -182,8 +208,19 @@ def main():
                 symbol_ok = input()
                 symbol_ok_lower = symbol_ok.lower()
                 if symbol_ok_lower == "yes":
-                    number_password = len(saved_passwords)
-                    password_save = f'Password {number_password}: {added_password} / Notes: {note}'
+                    print("------------------------------")
+                    print("Would you like to add a Note to this password? Yes or No")
+                    print("------------------------------")
+                    #notes are not saved as a new variable to keep important information together and saved in a simple csv file
+                    add_note = input()
+                    add_note_lower = add_note.lower()
+                    if add_note_lower == "yes":
+                        note = input("Enter Note:")
+                    else:
+                        print("------------------------------")
+                        print("No Note added")
+                        print("------------------------------")
+                    password_save = f'Password: {added_password} / Notes: {note}'
                     saved_passwords.append(password_save)
                     print("------------------------------")
                     print("Saved")
@@ -199,8 +236,19 @@ def main():
                     print("------------------------------")
                     main()
             else:
-                number_password = len(saved_passwords)
-                password_save = f'Password {number_password}: {added_password} / Notes: {note}'
+                print("------------------------------")
+                print("Would you like to add a Note to this password? Yes or No")
+                print("------------------------------")
+                #notes are not saved as a new variable to keep important information together and saved in a simple csv file
+                add_note = input()
+                add_note_lower = add_note.lower()
+                if add_note_lower == "yes":
+                    note = input("Enter Note:")
+                else:
+                    print("------------------------------")
+                    print("No Note added")
+                    print("------------------------------")
+                password_save = f'Password: {added_password} / Notes: {note}'
                 saved_passwords.append(password_save)
                 print("------------------------------")
                 print("Saved")
