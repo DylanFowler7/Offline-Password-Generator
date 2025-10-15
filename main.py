@@ -27,7 +27,7 @@ def main():
         #start of branches for choices on first screen
         if selection_lower == "1" or selection_lower == "generate":
             print("------------------------------")
-            print("Please make sure you are not sharing your screen in any for your safety")
+            print("Please make sure you are not sharing your screen for your safety")
             print("Type Ready when ready")
             print("------------------------------")
             ready = input()
@@ -115,6 +115,7 @@ def main():
         elif selection_lower == "2" or selection_lower == "add passwords":
             number_count = 0
             symbol_count = 0
+            note = ""
             #this was added to allow users to keep their passwords in a place convenient for them 
             print("------------------------------")
             print("Please enter password you wish to add.")
@@ -141,7 +142,9 @@ def main():
                         second_ok = input()
                         second_ok_lower = second_ok.lower()
                         if second_ok_lower == "yes":
-                            saved_passwords.append(added_password)
+                            number_password = len(saved_passwords)
+                            password_save = f'Password {number_password}: {added_password} / Notes: {note}'
+                            saved_passwords.append(password_save)
                             print("------------------------------")
                             print("Saved")
                             print("------------------------------")
@@ -156,7 +159,9 @@ def main():
                             print("------------------------------")
                             main()
                     else:
-                        saved_passwords.append(added_password)
+                        number_password = len(saved_passwords)
+                        password_save = f'Password {number_password}: {added_password} / Notes: {note}'
+                        saved_passwords.append(password_save)
                         print("------------------------------")
                         print("Saved")
                         print("------------------------------")
@@ -177,7 +182,9 @@ def main():
                 symbol_ok = input()
                 symbol_ok_lower = symbol_ok.lower()
                 if symbol_ok_lower == "yes":
-                    saved_passwords.append(added_password)
+                    number_password = len(saved_passwords)
+                    password_save = f'Password {number_password}: {added_password} / Notes: {note}'
+                    saved_passwords.append(password_save)
                     print("------------------------------")
                     print("Saved")
                     print("------------------------------")
@@ -192,7 +199,9 @@ def main():
                     print("------------------------------")
                     main()
             else:
-                saved_passwords.append(added_password)
+                number_password = len(saved_passwords)
+                password_save = f'Password {number_password}: {added_password} / Notes: {note}'
+                saved_passwords.append(password_save)
                 print("------------------------------")
                 print("Saved")
                 print("------------------------------")
@@ -208,7 +217,7 @@ def main():
                 print("------------------------------")
                 main()
             print("------------------------------")
-            print("Please make sure you are not sharing your screen in any for your safety")
+            print("Please make sure you are not sharing your screen for your safety")
             print("Type Ready when ready")
             print("------------------------------")
             ready = input()
@@ -219,7 +228,7 @@ def main():
                 print("Otherwise, enter Return to return")
                 print("------------------------------")
                 choose_password = input()
-                if choose_password == "":
+                if choose_password.lower() not in digits or choose_password.lower() == "":
                     print("------------------------------")
                     print("Returning")
                     print("------------------------------")
@@ -245,6 +254,7 @@ def main():
                         new_note = input("New Note: ")
                         note_split[1] = new_note
                         fixed_note = "Notes: ".join(note_split)
+                        print(fixed_note)
                         print("------------------------------")
                         print("Note changed to {}".format(fixed_note))
                         print("------------------------------")
@@ -253,7 +263,8 @@ def main():
                             writer = csv.writer(f)
                             for item in saved_passwords:
                                 writer.writerow([item])
-                                main()
+                        main()
+                        print(saved_passwords)
                     if notes_or_delete_lower == "delete":
                         print("------------------------------")
                         print("Deleting password '[{}]'. Enter Confirm to delete".format(saved_passwords[choose_password_int]))
@@ -265,7 +276,6 @@ def main():
                                 writer = csv.writer(f)
                                 for item in saved_passwords:
                                     writer.writerow([item])
-                                    main()
                             print("------------------------------")
                             print("Password Deleted")
                             print("------------------------------")
